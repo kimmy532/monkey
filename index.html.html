@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envelope with Letter</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Envelope container */
+        .container {
+            position: relative;
+            width: 280px;
+            height: 220px; /* Increased height */
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Envelope */
+        #envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #f9c5c8;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* Envelope flap (top triangle) */
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: #e89ea3;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transition: transform 0.5s ease-in-out;
+            transform-origin: top;
+        }
+
+        /* Letter inside */
+        .letter {
+            position: absolute;
+            width: 90%;
+            height: 100%; /* Increased height */
+            background-color: white;
+            top: 100%; /* Initially hidden */
+            left: 5%;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* Hidden at start */
+            transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            overflow-y: auto; /* Ensures scroll if the content overflows */
+        }
+
+        /* Open animation */
+        .container.open #envelope {
+            transform: translateY(-50px);
+        }
+
+        .container.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        .container.open .letter {
+            top: 20%; /* Moves up */
+            opacity: 1; /* Becomes visible */
+        }
+
+        /* Balloon animation */
+        .balloon {
+            position: absolute;
+            bottom: -50px;
+            width: 40px;
+            height: 60px;
+            background-color: #ff8b8b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: floatUp 3s ease-in forwards;
+        }
+
+        .balloon:nth-child(odd) {
+            background-color: #ffb3b3;
+        }
+
+        .balloon:nth-child(even) {
+            background-color: #ffccff;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-300px);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Envelope container -->
+    <div class="container" onclick="openEnvelope()">
+        <div class="flap"></div>
+        <div id="envelope"></div>
+        <div class="letter">
+            <p>💌 happy birthday monkey!</p>
+            <p>hai vikkybels :3, enjoy your day and always be happy, know that i'll always be there for u whenever u need me oka. as I always say, take care of ur self and I'll be hoping that you'll get everything you wanted in life. stay positive and yes thank u for being my fren ly <3 </p>
+        </div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            document.querySelector('.container').classList.toggle('open');
+
+            // Balloon effect
+            for (let i = 0; i < 10; i++) { // Create 10 balloons
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                document.body.appendChild(balloon);
+
+                // Randomize the position of each balloon
+                balloon.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+                balloon.style.animationDelay = Math.random() * 2 + 's'; // Random delay for float-up animation
+
+                // Remove balloon after animation ends
+                setTimeout(() => {
+                    balloon.remove();
+                }, 3000); // Match animation duration
+            }
+        }
+    </script>
+
+</body>
+</html>
